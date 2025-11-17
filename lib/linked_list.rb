@@ -20,17 +20,13 @@ class LinkedList
   end
 
   def prepend(item)
-    if first_node.nil?
-      append(item)
-    else
-      self.first_node = Node.new(item, first_node)
-    end
+    return append(item) if first_node.nil?
+
+    self.first_node = Node.new(item, first_node)
   end
 
   def size
-    inject(0) do |size, _|
-      size + 1
-    end
+    inject(0) { |size, _| size + 1 }
   end
 
   def head
@@ -44,28 +40,42 @@ class LinkedList
   def at(desired_index)
     desired_index = size + desired_index if desired_index.negative?
 
-    each.with_index do |item, item_index|
-      return item if item_index == desired_index
-    end
+    each.with_index { |item, index| return item if index == desired_index }
 
     nil
   end
 
   def pop
     popped_item = last_node.dup
-    last_node = node_at(-2)
+    self.last_node = node_at(-2)
     last_node.next_node = nil
 
     popped_item.value
   end
 
   def contains?(value)
-    include?(value)
+    each { |element| return true if value.eql?(element) }
+
+    false
+  end
+
+  def find(value)
+    each.with_index { |element, index| return index if element.eql?(value) }
+
+    nil
+  end
+
+  def insert_at(index, value)
+    raise ArgumentError if index > size || index.negative?
+
+    return append(value) if index == size
+    return prepend(value) if index.zero?
+
+    new_node = Node.new(value, node_at(index))
+    node_at(index - 1).next_node = new_node
   end
 
   def to_s
-    return 'warning: empty list' if first_node.nil?
-
     map(&:to_s).join(' -> ')
   end
 
@@ -105,25 +115,13 @@ class LinkedList
   def map
     return enum_for(:map) unless block_given?
 
-    map = []
-
-    each { |element| map << yield(element) }
-
-    map
-  end
-
-  def include?(value)
-    each { |element| return true if value.eql?(element) }
-
-    false
+    inject([]) { |map, element| map << yield(element) }
   end
 
   def node_at(desired_index)
     desired_index = size + desired_index if desired_index.negative?
 
-    each_node.with_index do |item, item_index|
-      return item if item_index == desired_index
-    end
+    each_node.with_index { |item, index| return item if index == desired_index }
 
     nil
   end
