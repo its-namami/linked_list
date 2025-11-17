@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# This class initializes and manages nodes of linked list
 class Node
   attr_accessor :value, :next_node
 
