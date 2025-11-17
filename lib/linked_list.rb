@@ -51,6 +51,14 @@ class LinkedList
     nil
   end
 
+  def pop
+    popped_item = last_node.dup
+    last_node = node_at(-2)
+    last_node.next_node = nil
+
+    popped_item.value
+  end
+
   def to_s
     return 'warning: empty list' if first_node.nil?
 
@@ -98,5 +106,15 @@ class LinkedList
     each { |element| map << yield(element) }
 
     map
+  end
+
+  def node_at(desired_index)
+    desired_index = size + desired_index if desired_index.negative?
+
+    each_node.with_index do |item, item_index|
+      return item if item_index == desired_index
+    end
+
+    nil
   end
 end
