@@ -21,5 +21,7 @@ puts "List at index 3: #{list.at(3)}"
 puts "List at index 0: #{list.at(0)}"
 puts "List at index -1: #{list.at(-1)}"
 puts "List at index -9: #{list.at(-9) || 'it\'s falsey, so empty, eh'}"
-puts list.pop
-puts list
+puts "Popped item: #{list.pop}"
+puts "Current list: #{list}"
+puts "Does the list contain cat? #{list.contains?('cat') ? 'Yes' : 'No'}"
+puts "Does the list contain 5? #{list.contains?(5) ? 'Yes' : 'No'}"

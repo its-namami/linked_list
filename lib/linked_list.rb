@@ -59,6 +59,10 @@ class LinkedList
     popped_item.value
   end
 
+  def contains?(value)
+    include?(value)
+  end
+
   def to_s
     return 'warning: empty list' if first_node.nil?
 
@@ -106,6 +110,12 @@ class LinkedList
     each { |element| map << yield(element) }
 
     map
+  end
+
+  def include?(value)
+    each { |element| return true if value.eql?(element) }
+
+    false
   end
 
   def node_at(desired_index)
