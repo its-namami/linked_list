@@ -65,6 +65,10 @@ class LinkedList
     nil
   end
 
+  def to_s
+    map(&:to_s).join(' -> ')
+  end
+
   def insert_at(index, value)
     raise ArgumentError if index > size || index.negative?
 
@@ -75,8 +79,21 @@ class LinkedList
     node_at(index - 1).next_node = new_node
   end
 
-  def to_s
-    map(&:to_s).join(' -> ')
+  def remove_at(index)
+    raise ArgumentError if index >= size || index.negative?
+
+    case index
+    when size - 1
+      pop
+    when 0
+      shifted_value = first_node.value.dup
+      self.first_node = first_node.next_node
+      shifted_value
+    else
+      removed_value = at(index).dup
+      node_at(index - 1).next_node = node_at(index).next_node
+      removed_value
+    end
   end
 
   private
