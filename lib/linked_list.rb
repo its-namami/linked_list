@@ -33,18 +33,28 @@ class LinkedList
     end
   end
 
-  def to_s
-    return 'warning: empty list' if first_node.nil?
-
-    map(&:to_s).join(' -> ')
-  end
-
   def head
     first_node.value
   end
 
   def tail
     last_node.value
+  end
+
+  def at(desired_index)
+    desired_index = size + desired_index if desired_index.negative?
+
+    each.with_index do |item, item_index|
+      return item if item_index == desired_index
+    end
+
+    nil
+  end
+
+  def to_s
+    return 'warning: empty list' if first_node.nil?
+
+    map(&:to_s).join(' -> ')
   end
 
   private
